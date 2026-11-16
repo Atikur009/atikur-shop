@@ -1,24 +1,24 @@
 /* ATIKUR WEAR — interactive clothing rail (hubahu reference mechanic) */
 const PRODUCTS = [
-  { id: 'yellow', name: 'Mustard Hooded Jacket', price: 89, img: 'assets/cut/yellow.png',
+  { id: 'yellow', name: 'Mustard Hooded Jacket', price: 89, img: 'assets/cut/yellow.png', back: 'assets/cut/yellow-back.png',
     variants: [
       { name: 'Mustard', filter: 'none' },
       { name: 'Olive', filter: 'hue-rotate(45deg) saturate(.85)' },
       { name: 'Black', filter: 'brightness(.32) saturate(.4)' },
     ] },
-  { id: 'vest', name: 'Dove Vest', price: 65, img: 'assets/cut/vest.png',
+  { id: 'vest', name: 'Dove Vest', price: 65, img: 'assets/cut/vest.png', back: 'assets/cut/vest-back.png',
     variants: [
       { name: 'Rust', filter: 'none' },
       { name: 'Black', filter: 'brightness(.3) saturate(.5)' },
       { name: 'Cream', filter: 'brightness(1.55) saturate(.35)' },
     ] },
-  { id: 'green', name: 'Colour-Block Windbreaker', price: 79, img: 'assets/cut/green.png',
+  { id: 'green', name: 'Colour-Block Windbreaker', price: 79, img: 'assets/cut/green.png', back: 'assets/cut/green-back.png',
     variants: [
       { name: 'Green / Black', filter: 'none' },
       { name: 'Navy / Black', filter: 'hue-rotate(130deg) saturate(.9)' },
       { name: 'Black', filter: 'brightness(.4) saturate(.3)' },
     ] },
-  { id: 'denim', name: 'Classic Denim Jacket', price: 95, img: 'assets/cut/denim.png',
+  { id: 'denim', name: 'Classic Denim Jacket', price: 95, img: 'assets/cut/denim.png', back: 'assets/cut/denim-back.png',
     variants: [
       { name: 'Mid Wash', filter: 'none' },
       { name: 'Black', filter: 'brightness(.35) saturate(.5)' },
@@ -207,6 +207,9 @@ function prodTick(now) {
     const back = prodNormRot() >= 90 && prodNormRot() < 270;
     prodRotFront.classList.toggle('active', !back);
     prodRotBack.classList.toggle('active', back);
+    // face switch at edge-on: immune to backface-visibility/filter quirks
+    prodImg.style.opacity = back ? '0' : '1';
+    prodImgBack.style.opacity = back ? '1' : '0';
   }
   requestAnimationFrame(prodTick);
 }
@@ -289,7 +292,9 @@ function showProduct(i, animate) {
   const p = PRODUCTS[current];
   selectedVariant = 0; selectedSize = 'M';
   prodRot = 0; prodRotTarget = 0; prodSpinning = false;
-  prodImg.src = p.img; prodImgBack.src = p.img;
+  prodImg.src = p.img; prodImgBack.src = p.back || p.img;
+  prodImgBack.classList.toggle('real-back', !!p.back);
+  prodImg.style.opacity = '1'; prodImgBack.style.opacity = '0';
   prodImg.alt = p.name;
   applyProdFilter(p.variants[0]);
   if (animate) {

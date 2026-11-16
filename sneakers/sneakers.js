@@ -197,7 +197,13 @@ function tick(now) {
       if (Math.abs(rotTarget - rot) < 0.3) rot = rotTarget;
     }
     const sway = Math.sin(now / 900) * 7 * swayAmp;
-    flipInner.style.transform = `rotateY(${rot + sway}deg)`;
+    const shown = rot + sway;
+    flipInner.style.transform = `rotateY(${shown}deg)`;
+    // face switch at edge-on: immune to backface-visibility/filter quirks
+    const nr = ((shown % 360) + 360) % 360;
+    const showBack = nr >= 90 && nr < 270;
+    shoeFront.style.opacity = showBack ? '0' : '1';
+    shoeBack.style.opacity = showBack ? '1' : '0';
   }
   requestAnimationFrame(tick);
 }
@@ -297,6 +303,7 @@ function showFocused(i, animate) {
   const s = SHOES[current];
   selectedSize = null;
   rot = 0; rotTarget = 0; spinning = false;
+  shoeFront.style.opacity = '1'; shoeBack.style.opacity = '0';
   shoeFront.src = s.img; shoeBack.src = s.img;
   shoeFront.alt = s.line1 + ' ' + s.line2;
   applyFocusFilter(s);

@@ -108,7 +108,7 @@ body {
   position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
   width: 2px; height: 26px; background: #b9b6b1;
 }
-.prod-flip { height: 100%; margin-top: 8px; }
+.prod-flip { height: 100%; margin-top: 8px; perspective: 1200px; }
 .prod-flip.swap { animation: prodColorSwap .34s ease; }
 @keyframes prodColorSwap {
   0% { opacity: 1; transform: scale(1); }
@@ -122,10 +122,14 @@ body {
   height: 100%; max-width: 62vw; object-fit: contain; display: block;
   backface-visibility: hidden; pointer-events: none;
   filter: drop-shadow(0 26px 26px rgba(0,0,0,.20));
+  transition: opacity .1s;
 }
 .prod-face.back {
   position: absolute; top: 0; left: 50%;
   transform: translateX(-50%) rotateY(180deg) scaleX(-1);
+}
+.prod-face.back.real-back {
+  transform: translateX(-50%) rotateY(180deg);
 }
 
 .prod-variants {

@@ -117,7 +117,7 @@ body {
   cursor: grab; touch-action: none; perspective: 1300px;
 }
 .focused-shoe-zone.dragging { cursor: grabbing; }
-.flip { position: relative; width: min(46vw, 640px); }
+.flip { position: relative; width: min(46vw, 640px); perspective: 1200px; }
 .flip.swap { animation: colorSwap .34s ease; }
 @keyframes colorSwap {
   0% { opacity: 1; transform: scale(1); }
@@ -131,6 +131,7 @@ body {
   display: block; width: 100%; object-fit: contain; pointer-events: none;
   backface-visibility: hidden;
   filter: drop-shadow(0 30px 26px rgba(0,0,0,.20));
+  transition: opacity .1s;
 }
 .face.back { position: absolute; inset: 0; transform: rotateY(180deg) scaleX(-1); }
 .floor-shadow {
