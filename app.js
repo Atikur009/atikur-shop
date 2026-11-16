@@ -54,13 +54,20 @@ const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 const stage = document.getElementById('stage');
 const track = document.getElementById('track');
 const productView = document.getElementById('product');
+const prodStage = document.getElementById('prodStage');
+const prodFlip = document.getElementById('prodFlip');
+const prodFlipInner = document.getElementById('prodFlipInner');
 const prodImg = document.getElementById('prodImg');
+const prodImgBack = document.getElementById('prodImgBack');
 const prodName = document.getElementById('prodName');
 const prodPrice = document.getElementById('prodPrice');
 const prodSizes = document.getElementById('prodSizes');
 const prodVariants = document.getElementById('prodVariants');
 const bagCount = document.getElementById('bagCount');
 const toast = document.getElementById('toast');
+const prodRotFront = document.getElementById('prodRotFront');
+const prodRotBack = document.getElementById('prodRotBack');
+const PROD_SHADOW = 'drop-shadow(0 26px 26px rgba(0,0,0,.20))';
 
 let bag = 0;
 let current = 0;
@@ -180,6 +187,74 @@ stage.addEventListener('wheel', (e) => {
 }, { passive: false });
 
 /* ---------- product view ---------- */
+let prodRot = 0, prodRotTarget = 0;
+let prodSpinning = false, prodSpinStart = 0, prodSpinFrom = 0;
+const PROD_SPIN_MS = 900;
+
+function prodNormRot() { return ((prodRot % 360) + 360) % 360; }
+function prodTick(now) {
+  if (productView.classList.contains('open')) {
+    if (prodSpinning) {
+      const t = Math.min(1, (now - prodSpinStart) / PROD_SPIN_MS);
+      const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      prodRot = prodSpinFrom + 360 * e;
+      if (t >= 1) { prodSpinning = false; prodRot = 0; prodRotTarget = 0; }
+    } else {
+      prodRot += (prodRotTarget - prodRot) * 0.14;
+      if (Math.abs(prodRotTarget - prodRot) < 0.3) prodRot = prodRotTarget;
+    }
+    prodFlipInner.style.transform = `rotateY(${prodRot}deg)`;
+    const back = prodNormRot() >= 90 && prodNormRot() < 270;
+    prodRotFront.classList.toggle('active', !back);
+    prodRotBack.classList.toggle('active', back);
+  }
+  requestAnimationFrame(prodTick);
+}
+requestAnimationFrame(prodTick);
+
+function prodSpin360() {
+  if (prodSpinning) return;
+  prodSpinning = true;
+  prodSpinStart = performance.now();
+  prodSpinFrom = prodNormRot();
+  prodRotTarget = 0;
+}
+prodRotFront.addEventListener('click', () => { prodSpinning = false; prodRotTarget = 0; });
+prodRotBack.addEventListener('click', () => { prodSpinning = false; prodRotTarget = 180; });
+document.getElementById('prodRotSpin').addEventListener('click', prodSpin360);
+
+let prodDragging = false, prodDragStartX = 0, prodDragStartRot = 0, prodDragMoved = 0, prodDragStartTime = 0;
+prodStage.addEventListener('pointerdown', (e) => {
+  if (e.target.closest('.prod-variants')) return;
+  prodDragging = true; prodSpinning = false;
+  prodDragStartX = e.clientX;
+  prodDragStartRot = prodNormRot() > 180 ? prodNormRot() - 360 : prodNormRot();
+  prodRot = prodDragStartRot; prodRotTarget = prodDragStartRot;
+  prodDragMoved = 0; prodDragStartTime = performance.now();
+  prodStage.classList.add('dragging');
+  prodStage.setPointerCapture(e.pointerId);
+});
+prodStage.addEventListener('pointermove', (e) => {
+  if (!prodDragging) return;
+  const dx = e.clientX - prodDragStartX;
+  prodDragMoved = Math.max(prodDragMoved, Math.abs(dx));
+  prodRotTarget = Math.max(0, Math.min(180, prodDragStartRot + dx * 0.45));
+  prodRot = prodRotTarget;
+});
+function prodEndDrag() {
+  if (!prodDragging) return;
+  prodDragging = false;
+  prodStage.classList.remove('dragging');
+  if (prodDragMoved < 6 && performance.now() - prodDragStartTime < 400) { prodSpin360(); return; }
+  prodRotTarget = prodRotTarget > 90 ? 180 : 0;
+}
+prodStage.addEventListener('pointerup', prodEndDrag);
+prodStage.addEventListener('pointercancel', prodEndDrag);
+
+function applyProdFilter(v) {
+  prodImg.style.filter = v.filter === 'none' ? PROD_SHADOW : `${v.filter} ${PROD_SHADOW}`;
+  prodImgBack.style.filter = (v.filter === 'none' ? 'brightness(.96)' : `${v.filter} brightness(.96)`) + ' ' + PROD_SHADOW;
+}
 function renderVariants(p) {
   prodVariants.innerHTML = '';
   p.variants.forEach((v, vi) => {
@@ -188,11 +263,13 @@ function renderVariants(p) {
     b.title = v.name;
     b.innerHTML = `<img src="${p.img}" alt="${v.name}" style="filter:${v.filter}">`;
     b.addEventListener('click', () => {
+      if (vi === selectedVariant) return;
       selectedVariant = vi;
-      prodImg.style.filter = v.filter === 'none'
-        ? 'drop-shadow(0 26px 26px rgba(0,0,0,.20))'
-        : `${v.filter} drop-shadow(0 26px 26px rgba(0,0,0,.20))`;
       renderVariants(p);
+      // animated colour morph: fade+shrink, swap colour mid-animation
+      prodFlip.classList.remove('swap'); void prodFlip.offsetWidth;
+      prodFlip.classList.add('swap');
+      setTimeout(() => applyProdFilter(v), 170);
     });
     prodVariants.appendChild(b);
   });
@@ -211,12 +288,13 @@ function showProduct(i, animate) {
   current = (i + PRODUCTS.length) % PRODUCTS.length;
   const p = PRODUCTS[current];
   selectedVariant = 0; selectedSize = 'M';
-  prodImg.src = p.img;
+  prodRot = 0; prodRotTarget = 0; prodSpinning = false;
+  prodImg.src = p.img; prodImgBack.src = p.img;
   prodImg.alt = p.name;
-  prodImg.style.filter = 'drop-shadow(0 26px 26px rgba(0,0,0,.20))';
+  applyProdFilter(p.variants[0]);
   if (animate) {
-    prodImg.classList.remove('swap'); void prodImg.offsetWidth;
-    prodImg.classList.add('swap');
+    prodFlip.classList.remove('enter'); void prodFlip.offsetWidth;
+    prodFlip.classList.add('enter');
   }
   prodName.textContent = p.name;
   prodPrice.textContent = '$' + p.price + '.00';

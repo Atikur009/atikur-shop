@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ATIKUR WEAR — Sneakers</title>
+<meta name="description" content="ATIKUR WEAR sneakers — drag to rotate, switch colourways, shop the drop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sneakers.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="top-left">
+    <a href="../">RAIL</a>
+    <a href="../looks/">LOOKS</a>
+    <a href="./" class="active">SNEAKERS</a>
+  </div>
+  <div class="wordmark">ATIKUR&nbsp;WEAR</div>
+  <div class="top-right">
+    <button class="icon-btn" aria-label="Search">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>
+    </button>
+    <button class="icon-btn bag" id="bagBtn" aria-label="Shopping bag">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+      <span class="bag-count" id="bagCount">0</span>
+    </button>
+  </div>
+</header>
+
+<main class="stage" id="stage">
+  <div class="ghost" id="ghost">ORBIT</div>
+
+  <div class="shoe-zone" id="shoeZone">
+    <div class="flip" id="flip">
+      <div class="flip-inner" id="flipInner">
+        <img class="face front" id="shoeFront" src="" alt="Sneaker" draggable="false">
+        <img class="face back" id="shoeBack" src="" alt="" draggable="false">
+      </div>
+    </div>
+    <div class="floor-shadow"></div>
+    <div class="spin-hint">⟵ DRAG TO ROTATE · CLICK SHOE FOR 360° SPIN ⟶</div>
+  </div>
+
+  <div class="panel">
+    <div class="kicker">ATIKUR WEAR — FOOTWEAR DROP 01</div>
+    <h1 class="name" id="shoeName">—</h1>
+    <div class="price" id="shoePrice">—</div>
+    <p class="desc" id="shoeDesc"></p>
+    <div class="label">SELECT SIZE (UK)</div>
+    <div class="sizes" id="sizes"></div>
+    <div class="label">COLOURWAY — <span id="colorName">—</span></div>
+    <div class="colorways" id="colorways"></div>
+    <div class="rot-row">
+      <button class="rot-pill active" id="rotFront">FRONT</button>
+      <button class="rot-pill" id="rotBack">BACK</button>
+      <button class="rot-pill" id="rotSpin">⟳ 360° SPIN</button>
+    </div>
+    <button class="add-btn" id="addBtn">ADD TO CART</button>
+    <div class="meta">FREE DELIVERY OVER $100&nbsp;&nbsp;·&nbsp;&nbsp;30-DAY RETURNS</div>
+  </div>
+
+  <div class="thumbs" id="thumbs"></div>
+
+  <div class="pager">
+    <span class="page-num" id="pageNum">01 / 04</span>
+    <button class="page-arrow" id="pagePrev" aria-label="Previous shoe">‹</button>
+    <button class="page-arrow" id="pageNext" aria-label="Next shoe">›</button>
+  </div>
+</main>
+
+<div class="toast" id="toast">Added to bag ✓</div>
+
+<footer class="foot">
+  Concept demo — interactive clothing website built by <a href="https://atikur.cyou">Atikur Rahman</a>
+</footer>
+
+<script src="sneakers.js"></script>
+</body>
+</html>
