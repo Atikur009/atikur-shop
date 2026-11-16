@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ATIKUR WEAR — Sneakers</title>
-<meta name="description" content="ATIKUR WEAR sneakers — drag to rotate, switch colourways, shop the drop.">
+<meta name="description" content="ATIKUR WEAR sneakers — drag the wheel, open a shoe, pick your size.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="sneakers.css">
@@ -29,10 +29,34 @@
   </div>
 </header>
 
+<!-- ============ ORBIT VIEW ============ -->
 <main class="stage" id="stage">
-  <div class="ghost" id="ghost">ORBIT</div>
+  <div class="orbit-head">
+    <div class="orbit-count" id="orbitCount">01 / 04</div>
+    <h1 class="orbit-name" id="orbitName">ORBIT<br>X1</h1>
+    <div class="orbit-price" id="orbitPrice">$129.00</div>
+    <button class="details-link" id="orbitDetails">View details&nbsp;&nbsp;→</button>
+  </div>
 
-  <div class="shoe-zone" id="shoeZone">
+  <div class="orbit-field" id="orbitField"></div>
+
+  <div class="watermark">ATIKUR&nbsp;WEAR</div>
+
+  <div class="wheel-wrap">
+    <div class="wheel-labels"><span>01</span><span>04</span></div>
+    <div class="wheel-track" id="wheelTrack">
+      <div class="wheel-fill" id="wheelFill"></div>
+      <div class="wheel-handle" id="wheelHandle"></div>
+    </div>
+    <div class="wheel-hint">DRAG THE WHEEL</div>
+  </div>
+</main>
+
+<!-- ============ FOCUSED VIEW ============ -->
+<section class="focused" id="focused" aria-hidden="true">
+  <button class="focused-close" id="focusedClose">Close&nbsp;&nbsp;✕</button>
+
+  <div class="focused-shoe-zone" id="shoeZone">
     <div class="flip" id="flip">
       <div class="flip-inner" id="flipInner">
         <img class="face front" id="shoeFront" src="" alt="Sneaker" draggable="false">
@@ -40,35 +64,29 @@
       </div>
     </div>
     <div class="floor-shadow"></div>
-    <div class="spin-hint">⟵ DRAG TO ROTATE · CLICK SHOE FOR 360° SPIN ⟶</div>
+    <div class="rotate-hint">←&nbsp;&nbsp;DRAG TO ROTATE&nbsp;&nbsp;·&nbsp;&nbsp;CLICK FOR 360° SPIN&nbsp;&nbsp;→</div>
   </div>
 
-  <div class="panel">
-    <div class="kicker">ATIKUR WEAR — FOOTWEAR DROP 01</div>
-    <h1 class="name" id="shoeName">—</h1>
-    <div class="price" id="shoePrice">—</div>
-    <p class="desc" id="shoeDesc"></p>
-    <div class="label">SELECT SIZE (UK)</div>
-    <div class="sizes" id="sizes"></div>
-    <div class="label">COLOURWAY — <span id="colorName">—</span></div>
+  <div class="focused-panel">
+    <h2 class="focused-name" id="shoeName">ORBIT<br>X1</h2>
+    <div class="focused-price" id="shoePrice">$129.00</div>
+    <div class="focused-label">SHOE SIZE</div>
+    <div class="size-grid" id="sizeGrid"></div>
+    <div class="focused-label">COLOURWAY — <span id="colorName">—</span></div>
     <div class="colorways" id="colorways"></div>
-    <div class="rot-row">
-      <button class="rot-pill active" id="rotFront">FRONT</button>
-      <button class="rot-pill" id="rotBack">BACK</button>
-      <button class="rot-pill" id="rotSpin">⟳ 360° SPIN</button>
-    </div>
-    <button class="add-btn" id="addBtn">ADD TO CART</button>
-    <div class="meta">FREE DELIVERY OVER $100&nbsp;&nbsp;·&nbsp;&nbsp;30-DAY RETURNS</div>
+    <button class="cta-btn" id="ctaBtn">Select a size</button>
+    <button class="details-link" id="fullDetails">View full details&nbsp;&nbsp;→</button>
+    <p class="focused-desc" id="shoeDesc"></p>
   </div>
 
   <div class="thumbs" id="thumbs"></div>
 
   <div class="pager">
+    <button class="page-arrow" id="pagePrev" aria-label="Previous shoe">←</button>
     <span class="page-num" id="pageNum">01 / 04</span>
-    <button class="page-arrow" id="pagePrev" aria-label="Previous shoe">‹</button>
-    <button class="page-arrow" id="pageNext" aria-label="Next shoe">›</button>
+    <button class="page-arrow" id="pageNext" aria-label="Next shoe">→</button>
   </div>
-</main>
+</section>
 
 <div class="toast" id="toast">Added to bag ✓</div>
 
