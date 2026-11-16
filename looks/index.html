@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ATIKUR WEAR — Try the Look</title>
+<meta name="description" content="Try the look — scroll the looks, open one, shop every piece.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="looks.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="top-left">
+    <a href="../">RAIL</a>
+    <a href="./" class="active">LOOKS</a>
+  </div>
+  <div class="wordmark" id="wordmark">ATIKUR&nbsp;WEAR</div>
+  <div class="top-right">
+    <button class="icon-btn" aria-label="Search">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>
+    </button>
+    <button class="icon-btn bag" id="bagBtn" aria-label="Shopping bag">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+      <span class="bag-count" id="bagCount">0</span>
+    </button>
+  </div>
+</header>
+
+<main class="stage" id="stage">
+  <div class="title-block">
+    <h1>TRY THE<br>LOOK</h1>
+    <p>Scroll the looks. Open one.<br>Shop every piece of it.</p>
+  </div>
+  <div class="track" id="track"></div>
+  <button class="car-arrow left" id="carPrev" aria-label="Previous look">‹</button>
+  <button class="car-arrow right" id="carNext" aria-label="Next look">›</button>
+  <div class="rail-note">DRAG OR SCROLL TO EXPLORE&nbsp;&nbsp;·&nbsp;&nbsp;CLICK THE CENTRE LOOK TO OPEN IT</div>
+</main>
+
+<section class="detail" id="detail" aria-hidden="true">
+  <button class="edge-arrow left" id="detPrev" aria-label="Previous look">‹</button>
+  <button class="edge-arrow right" id="detNext" aria-label="Next look">›</button>
+  <button class="det-close" id="detClose" aria-label="Back to looks">✕</button>
+  <div class="det-photo-wrap">
+    <img class="det-photo" id="detPhoto" src="" alt="Look">
+  </div>
+  <div class="det-panel">
+    <div class="det-kicker">THE LOOK</div>
+    <h2 class="det-name" id="detName">—</h2>
+    <p class="det-desc" id="detDesc"></p>
+    <div class="det-items" id="detItems"></div>
+    <div class="det-total"><span>Total</span><span id="detTotal">—</span></div>
+    <button class="det-add" id="detAdd">ADD LOOK TO CART</button>
+    <div class="det-meta">FREE DELIVERY OVER $100&nbsp;&nbsp;·&nbsp;&nbsp;30-DAY RETURNS</div>
+  </div>
+</section>
+
+<div class="toast" id="toast">Added to bag ✓</div>
+
+<footer class="foot">
+  Concept demo — interactive clothing website built by <a href="https://atikur.cyou">Atikur Rahman</a>
+</footer>
+
+<script src="looks.js"></script>
+</body>
+</html>

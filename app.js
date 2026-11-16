@@ -255,6 +255,5 @@ document.getElementById('bagBtn').addEventListener('click', () => {
   setTimeout(() => toast.classList.remove('show'), 2200);
 });
 document.getElementById('shopLink').addEventListener('click', (e) => { e.preventDefault(); closeProduct(); });
-document.getElementById('collectionsLink').addEventListener('click', (e) => { e.preventDefault(); closeProduct(); });
 
 render();

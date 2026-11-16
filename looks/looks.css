@@ -1,0 +1,178 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Archivo', system-ui, sans-serif;
+  background: #f4f2ef;
+  color: #111;
+  overflow: hidden;
+  -webkit-user-select: none; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- top bar ---------- */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; height: 58px; z-index: 40;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 26px;
+}
+.top-left { display: flex; gap: 22px; flex: 1; }
+.top-left a {
+  text-decoration: none; color: #111; font-size: 11px; font-weight: 600;
+  letter-spacing: .18em;
+}
+.top-left a.active { border-bottom: 2px solid #111; padding-bottom: 3px; }
+.wordmark {
+  flex: 1; text-align: center; font-weight: 800; font-size: 17px;
+  letter-spacing: .34em; cursor: pointer; padding-left: .34em;
+}
+.top-right { flex: 1; display: flex; justify-content: flex-end; gap: 6px; }
+.icon-btn { position: relative; background: none; border: none; cursor: pointer; padding: 6px; color: #111; }
+.bag-count {
+  position: absolute; top: -1px; right: -3px; min-width: 16px; height: 16px; padding: 0 4px;
+  background: #111; color: #fff; border-radius: 999px; font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ---------- carousel stage ---------- */
+.stage { position: fixed; inset: 58px 0 30px 0; overflow: hidden; touch-action: none; cursor: grab; }
+.stage.dragging { cursor: grabbing; }
+.title-block { position: absolute; top: 26px; left: 34px; z-index: 10; pointer-events: none; }
+.title-block h1 { font-size: clamp(34px, 5vw, 56px); font-weight: 900; line-height: .95; letter-spacing: -.01em; }
+.title-block p { margin-top: 12px; font-size: 13px; line-height: 1.5; color: #777; }
+
+.track { position: absolute; inset: 0; }
+.card {
+  position: absolute; top: 50%; left: 50%;
+  width: 280px; height: 480px; margin: -240px 0 0 -140px;
+  border-radius: 20px; overflow: hidden; cursor: pointer;
+  box-shadow: 0 24px 44px rgba(0,0,0,.22);
+  will-change: transform, filter, opacity;
+}
+.card img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.card .card-label {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 44px 18px 16px;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,.55));
+  color: #fff; opacity: 0; transition: opacity .2s; pointer-events: none;
+}
+.card.center .card-label { opacity: 1; }
+.card-label .name { font-size: 17px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.card-label .view {
+  display: inline-block; margin-top: 8px; padding: 7px 16px; border-radius: 999px;
+  background: #fff; color: #111; font-size: 11px; font-weight: 800; letter-spacing: .14em;
+}
+
+.car-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 20;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid rgba(0,0,0,.25); background: rgba(255,255,255,.7); color: #111;
+  font-size: 26px; line-height: 1; cursor: pointer; transition: .15s;
+  display: flex; align-items: center; justify-content: center; padding-bottom: 3px;
+}
+.car-arrow:hover { background: #111; color: #fff; }
+.car-arrow.left { left: 26px; }
+.car-arrow.right { right: 26px; }
+.rail-note {
+  position: absolute; left: 0; right: 0; bottom: 22px; text-align: center;
+  font-size: 10px; letter-spacing: .26em; color: #9a968f; pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ---------- detail view ---------- */
+.detail {
+  position: fixed; inset: 0; z-index: 60; display: none;
+  background: #ece9e4; overflow: hidden;
+}
+.detail.open { display: flex; }
+.det-photo-wrap {
+  flex: 1.15; display: flex; align-items: center; justify-content: center;
+  padding: 78px 20px 40px;
+}
+.det-photo {
+  max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 18px;
+  box-shadow: 0 26px 50px rgba(0,0,0,.22);
+  animation: detIn .35s cubic-bezier(.2,1.2,.4,1);
+}
+@keyframes detIn { from { transform: translateY(14px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+.det-photo.swap { animation: detSwap .3s ease; }
+@keyframes detSwap { 0% { opacity: 0; transform: translateX(18px); } 100% { opacity: 1; transform: none; } }
+
+.det-panel {
+  flex: 1; max-width: 460px; background: #fff; margin: 78px 34px 40px 0;
+  border-radius: 18px; padding: 30px 28px; overflow-y: auto;
+  box-shadow: 0 20px 44px rgba(0,0,0,.14);
+}
+.det-kicker { font-size: 11px; font-weight: 700; letter-spacing: .24em; color: #999; }
+.det-name { font-size: 30px; font-weight: 900; letter-spacing: .02em; margin: 8px 0 6px; text-transform: uppercase; }
+.det-desc { font-size: 14px; line-height: 1.55; color: #666; margin-bottom: 20px; }
+.det-items { display: flex; flex-direction: column; gap: 12px; }
+.det-item {
+  display: flex; align-items: center; gap: 14px; padding: 10px 12px;
+  border: 1px solid #eee; border-radius: 14px; background: #faf9f7;
+}
+.det-item img { width: 52px; height: 52px; object-fit: cover; border-radius: 10px; flex: none; }
+.det-item .it-name { flex: 1; font-size: 14px; font-weight: 600; }
+.det-item .it-name span { display: block; font-size: 12px; color: #999; font-weight: 400; margin-top: 2px; }
+.det-item .it-price { font-size: 14px; font-weight: 700; }
+.det-item .it-add {
+  width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: #fff;
+  font-size: 16px; cursor: pointer; flex: none; transition: .15s;
+}
+.det-item .it-add:hover, .det-item .it-add.added { background: #111; color: #fff; border-color: #111; }
+.det-total {
+  display: flex; justify-content: space-between; margin: 20px 2px 16px;
+  font-size: 16px; font-weight: 800; letter-spacing: .04em;
+}
+.det-add {
+  width: 100%; padding: 15px; border: none; border-radius: 999px;
+  background: #111; color: #fff; font-size: 13px; font-weight: 800;
+  letter-spacing: .16em; cursor: pointer; transition: .15s;
+}
+.det-add:hover { transform: translateY(-1px); }
+.det-meta { text-align: center; font-size: 10px; letter-spacing: .18em; color: #9a968f; margin-top: 14px; }
+
+.edge-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid rgba(0,0,0,.25); background: transparent; color: #111;
+  font-size: 26px; line-height: 1; cursor: pointer; transition: .15s;
+  display: flex; align-items: center; justify-content: center; padding-bottom: 3px;
+}
+.edge-arrow:hover { background: #111; color: #fff; }
+.edge-arrow.left { left: 26px; }
+.edge-arrow.right { right: 26px; }
+.det-close {
+  position: absolute; top: 74px; right: 26px; z-index: 5;
+  width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(0,0,0,.25);
+  background: transparent; font-size: 14px; cursor: pointer;
+}
+.det-close:hover { background: #111; color: #fff; }
+
+/* ---------- toast / footer ---------- */
+.toast {
+  position: fixed; left: 50%; bottom: 60px; transform: translateX(-50%) translateY(20px);
+  background: #111; color: #fff; padding: 12px 26px; border-radius: 999px; font-weight: 700; font-size: 14px;
+  opacity: 0; pointer-events: none; transition: .3s; z-index: 90; box-shadow: 0 12px 30px rgba(0,0,0,.3);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.foot {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 30px; z-index: 40;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: #9a968f; letter-spacing: .04em;
+}
+.foot a { color: #111; font-weight: 700; }
+
+/* ---------- mobile ---------- */
+@media (max-width: 760px) {
+  .top-left { display: none; }
+  .wordmark { text-align: left; padding-left: 0; }
+  .title-block { top: 14px; left: 20px; }
+  .card { width: 220px; height: 380px; margin: -190px 0 0 -110px; }
+  .detail.open { flex-direction: column; overflow-y: auto; }
+  .det-photo-wrap { padding: 70px 16px 8px; flex: none; }
+  .det-photo { max-height: 44vh; }
+  .det-panel { margin: 8px 16px 20px; max-width: none; }
+  .edge-arrow.left { left: 10px; }
+  .edge-arrow.right { right: 10px; }
+  .car-arrow.left { left: 10px; }
+  .car-arrow.right { right: 10px; }
+}
