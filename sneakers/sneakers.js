@@ -1,44 +1,42 @@
-/* ATIKUR WEAR — Sneakers, hubahu reference: orbit view + focused detail view */
+/* ATIKUR WEAR — Sneakers, hubahu reference: orbit view + focused detail view.
+   True colours only (no filter colourways) + free 360° rotation with momentum.
+   Products are data-driven: add an entry to SHOES and it appears everywhere. */
 const SHOES = [
-  { line1: 'ORBIT', line2: 'X1', price: 129, img: 'assets/cut/orbit.png', sel: 0,
-    desc: 'High-top court cushioning with a sculpted sole. Built for the game, styled for the street.',
-    variants: [
-      { name: 'White / Black', dot: '#f2f2f2', filter: 'none' },
-      { name: 'Triple Black', dot: '#1a1a1a', filter: 'brightness(.32) saturate(.4)' },
-      { name: 'Crimson', dot: '#c0272d', filter: 'sepia(.9) hue-rotate(-35deg) saturate(3.2) brightness(.95)' },
-    ] },
-  { line1: 'COURT', line2: 'CLASSIC', price: 89, img: 'assets/cut/court.png', sel: 0,
-    desc: 'The clean low-top that goes with everything. Crisp leather, cupsole, zero fuss.',
-    variants: [
-      { name: 'Royal / White', dot: '#3a6ea5', filter: 'none' },
-      { name: 'All White', dot: '#f2f2f2', filter: 'brightness(1.35) saturate(.35)' },
-      { name: 'Black / Gum', dot: '#1a1a1a', filter: 'brightness(.38) saturate(.5)' },
-    ] },
-  { line1: 'RETRO HIGH', line2: '86', price: 119, img: 'assets/cut/retro.png', sel: 0,
-    desc: 'An 86 silhouette with padded collar and old-school hoops energy. Loud, on purpose.',
-    variants: [
-      { name: 'Red / Black', dot: '#c0272d', filter: 'none' },
-      { name: 'Triple Black', dot: '#1a1a1a', filter: 'brightness(.3) saturate(.4)' },
-      { name: 'White / Red', dot: '#e8e8e8', filter: 'brightness(1.45) saturate(.65)' },
-    ] },
-  { line1: 'VELOCITY', line2: 'RUNNER', price: 99, img: 'assets/cut/runner.png', sel: 0,
-    desc: 'Featherweight mesh runner on a grippy gum sole. Made for daily miles and city light.',
-    variants: [
-      { name: 'Cream / Gum', dot: '#e6ddc9', filter: 'none' },
-      { name: 'Olive', dot: '#6b6b3a', filter: 'hue-rotate(55deg) saturate(.75) brightness(.92)' },
-      { name: 'All Black', dot: '#1a1a1a', filter: 'brightness(.3) saturate(.4)' },
-    ] },
+  { line1: 'ORBIT', line2: 'X1', price: 129, color: 'White / Black', img: 'assets/cut/orbit.png',
+    desc: 'High-top court cushioning with a sculpted sole. Built for the game, styled for the street.' },
+  { line1: 'COURT', line2: 'CLASSIC', price: 89, color: 'Royal / White', img: 'assets/cut/court.png',
+    desc: 'The clean low-top that goes with everything. Crisp leather, cupsole, zero fuss.' },
+  { line1: 'RETRO HIGH', line2: '86', price: 119, color: 'Red / Black', img: 'assets/cut/retro.png',
+    desc: 'An 86 silhouette with padded collar and old-school hoops energy. Loud, on purpose.' },
+  { line1: 'VELOCITY', line2: 'RUNNER', price: 99, color: 'Cream / Gum', img: 'assets/cut/runner.png',
+    desc: 'Featherweight mesh runner on a grippy gum sole. Made for daily miles and city light.' },
+  { line1: 'MIDNIGHT', line2: 'HIGH', price: 139, color: 'Black / White', img: 'assets/cut/midnight.png',
+    desc: 'Full black leather high-top on a clean white cupsole. Night-shift energy, all day.' },
+  { line1: 'FOREST', line2: 'RUNNER', price: 109, color: 'Green / White', img: 'assets/cut/forest.png',
+    desc: 'Suede and mesh retro runner in deep forest green. Trail looks, street miles.' },
+  { line1: 'NAVY', line2: 'SUEDE', price: 95, color: 'Navy / White', img: 'assets/cut/navy.png',
+    desc: 'Soft navy suede low-top with a crisp white sole. Quiet, clean, goes with everything.' },
+  { line1: 'EMBER', line2: 'RUNNER', price: 105, color: 'Orange / White', img: 'assets/cut/ember.png',
+    desc: 'Breathable mesh runner with ember-orange accents. Built to be noticed at speed.' },
 ];
 const SIZES = ['40', '41', '42', '43', '44', '45', '46'];
-const ORBIT_SHADOW = 'drop-shadow(0 26px 22px rgba(0,0,0,.18))';
-const FOCUS_SHADOW = 'drop-shadow(0 30px 26px rgba(0,0,0,.20))';
-/* orbit slots: x/y fractions of stage, scale, rotation */
+/* orbit slots: x/y fractions of stage, scale, rotation. Reused cyclically past 8. */
 const SLOTS = [
   { x: 0.44, y: 0.42, s: 1.00, r: -8 },
   { x: 0.70, y: 0.16, s: 0.60, r: 12 },
   { x: 0.83, y: 0.54, s: 0.48, r: -16 },
   { x: 0.14, y: 0.62, s: 0.55, r: 10 },
+  { x: 0.60, y: 0.74, s: 0.42, r: -6 },
+  { x: 0.88, y: 0.22, s: 0.40, r: 18 },
+  { x: 0.24, y: 0.20, s: 0.45, r: -12 },
+  { x: 0.06, y: 0.38, s: 0.38, r: 6 },
 ];
+function slotFor(offset) {
+  const base = SLOTS[offset % SLOTS.length];
+  const tier = Math.floor(offset / SLOTS.length);
+  const shrink = Math.pow(0.85, tier);
+  return { x: base.x, y: base.y, s: base.s * shrink, r: base.r, o: Math.pow(0.85, tier) };
+}
 
 const stage = document.getElementById('stage');
 const orbitField = document.getElementById('orbitField');
@@ -56,10 +54,9 @@ const shoeFront = document.getElementById('shoeFront');
 const shoeBack = document.getElementById('shoeBack');
 const shoeName = document.getElementById('shoeName');
 const shoePrice = document.getElementById('shoePrice');
+const shoeColor = document.getElementById('shoeColor');
 const shoeDesc = document.getElementById('shoeDesc');
 const sizeGrid = document.getElementById('sizeGrid');
-const colorwaysEl = document.getElementById('colorways');
-const colorName = document.getElementById('colorName');
 const ctaBtn = document.getElementById('ctaBtn');
 const thumbsEl = document.getElementById('thumbs');
 const pageNum = document.getElementById('pageNum');
@@ -85,15 +82,13 @@ const orbitEls = SHOES.map((s, i) => {
 function renderOrbit() {
   const W = stage.clientWidth, H = stage.clientHeight;
   orbitEls.forEach((el, i) => {
-    const slot = SLOTS[(i - current + SHOES.length) % SHOES.length];
+    const slot = slotFor((i - current + SHOES.length) % SHOES.length);
     const w = el.offsetWidth, h = el.offsetHeight;
     const x = slot.x * W - w / 2;
     const y = slot.y * H - h / 2;
     el.style.transform = `translate(${x}px, ${y}px) scale(${slot.s}) rotate(${slot.r}deg)`;
-    el.style.zIndex = slot.s === 1 ? '3' : '2';
-    el.style.opacity = '1';
-    const v = SHOES[i].variants[SHOES[i].sel];
-    el.firstElementChild.style.filter = v.filter === 'none' ? ORBIT_SHADOW : `${v.filter} ${ORBIT_SHADOW}`;
+    el.style.zIndex = slot.s >= 0.95 ? '3' : '2';
+    el.style.opacity = String(slot.o);
   });
   orbitCount.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(SHOES.length).padStart(2, '0');
   orbitName.innerHTML = SHOES[current].line1 + '<br>' + SHOES[current].line2;
@@ -177,29 +172,22 @@ wheelTrack.addEventListener('pointercancel', () => { wDragging = false; });
 
 document.getElementById('orbitDetails').addEventListener('click', () => openFocused(current));
 
-/* ---------- focused view ---------- */
-let rot = 0, rotTarget = 0;
-let spinning = false, spinStart = 0, spinFrom = 0;
-const SPIN_MS = 900;
+/* ---------- focused view: free 360° rotation + momentum + tilt ---------- */
+let rotY = 0, rotYTarget = 0, rotX = 0, rotXTarget = 0, velY = 0;
 let fDragging = false, swayAmp = 1;
 
-function normRot() { return ((rot % 360) + 360) % 360; }
 function tick(now) {
   if (focusedOpen) {
-    swayAmp += (((fDragging || spinning) ? 0 : 1) - swayAmp) * 0.05;
-    if (spinning) {
-      const t = Math.min(1, (now - spinStart) / SPIN_MS);
-      const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      rot = spinFrom + 360 * e;
-      if (t >= 1) { spinning = false; rot = 0; rotTarget = 0; }
-    } else {
-      rot += (rotTarget - rot) * 0.14;
-      if (Math.abs(rotTarget - rot) < 0.3) rot = rotTarget;
+    swayAmp += (((fDragging || Math.abs(velY) > 1) ? 0 : 1) - swayAmp) * 0.05;
+    if (!fDragging) {
+      if (Math.abs(velY) > 0.05) { rotYTarget += velY; velY *= 0.94; }
+      rotY += (rotYTarget - rotY) * 0.22;
+      rotX += (rotXTarget - rotX) * 0.22;
+      if (Math.abs(velY) <= 0.05 && Math.abs(rotYTarget - rotY) < 0.05) rotY = rotYTarget;
     }
-    const sway = Math.sin(now / 900) * 7 * swayAmp;
-    const shown = rot + sway;
-    flipInner.style.transform = `rotateY(${shown}deg)`;
-    // face switch at edge-on: immune to backface-visibility/filter quirks
+    const sway = Math.sin(now / 900) * 6 * swayAmp;
+    const shown = rotY + sway;
+    flipInner.style.transform = `rotateX(${rotX}deg) rotateY(${shown}deg)`;
     const nr = ((shown % 360) + 360) % 360;
     const showBack = nr >= 90 && nr < 270;
     shoeFront.style.opacity = showBack ? '0' : '1';
@@ -209,65 +197,43 @@ function tick(now) {
 }
 requestAnimationFrame(tick);
 
-function spin360() {
-  if (spinning) return;
-  spinning = true;
-  spinStart = performance.now();
-  spinFrom = normRot();
-  rotTarget = 0;
-}
-
-let fStartX = 0, fStartRot = 0, fMoved = 0, fStartTime = 0;
+let fStartX = 0, fStartY = 0, fStartRotY = 0, fStartRotX = 0, fMoved = 0, fStartTime = 0;
+let fSamples = [];
 shoeZone.addEventListener('pointerdown', (e) => {
-  fDragging = true; spinning = false;
-  fStartX = e.clientX;
-  fStartRot = normRot() > 180 ? normRot() - 360 : normRot();
-  rot = fStartRot; rotTarget = fStartRot;
+  fDragging = true; velY = 0;
+  fStartX = e.clientX; fStartY = e.clientY;
+  fStartRotY = rotYTarget; fStartRotX = rotXTarget;
   fMoved = 0; fStartTime = performance.now();
+  fSamples = [{ t: performance.now(), y: rotYTarget }];
   shoeZone.classList.add('dragging');
   shoeZone.setPointerCapture(e.pointerId);
 });
 shoeZone.addEventListener('pointermove', (e) => {
   if (!fDragging) return;
-  const dx = e.clientX - fStartX;
-  fMoved = Math.max(fMoved, Math.abs(dx));
-  rotTarget = Math.max(0, Math.min(180, fStartRot + dx * 0.45));
-  rot = rotTarget;
+  const dx = e.clientX - fStartX, dy = e.clientY - fStartY;
+  fMoved = Math.max(fMoved, Math.abs(dx), Math.abs(dy));
+  rotYTarget = fStartRotY + dx * 0.5;
+  rotY = rotYTarget;
+  rotXTarget = Math.max(-30, Math.min(30, fStartRotX - dy * 0.25));
+  rotX = rotXTarget;
+  const now = performance.now();
+  fSamples.push({ t: now, y: rotYTarget });
+  while (fSamples.length > 2 && now - fSamples[0].t > 120) fSamples.shift();
 });
 function fEndDrag() {
   if (!fDragging) return;
   fDragging = false;
   shoeZone.classList.remove('dragging');
-  if (fMoved < 6 && performance.now() - fStartTime < 400) { spin360(); return; }
-  rotTarget = rotTarget > 90 ? 180 : 0;
+  if (fMoved < 6 && performance.now() - fStartTime < 400) { velY = 24; return; }
+  const s = fSamples;
+  if (s.length >= 2) {
+    const dt = s[s.length - 1].t - s[0].t;
+    if (dt > 20) velY = Math.max(-25, Math.min(25, (s[s.length - 1].y - s[0].y) / dt * 16.7));
+  }
 }
 shoeZone.addEventListener('pointerup', fEndDrag);
 shoeZone.addEventListener('pointercancel', fEndDrag);
 
-function applyFocusFilter(shoe) {
-  const v = shoe.variants[shoe.sel];
-  shoeFront.style.filter = v.filter === 'none' ? FOCUS_SHADOW : `${v.filter} ${FOCUS_SHADOW}`;
-  shoeBack.style.filter = (v.filter === 'none' ? 'brightness(.96)' : `${v.filter} brightness(.96)`) + ' ' + FOCUS_SHADOW;
-}
-function renderColorways(shoe) {
-  colorwaysEl.innerHTML = '';
-  shoe.variants.forEach((v, vi) => {
-    const b = document.createElement('button');
-    b.className = 'colorway' + (vi === shoe.sel ? ' active' : '');
-    b.style.background = v.dot;
-    b.title = v.name;
-    b.addEventListener('click', () => {
-      if (vi === shoe.sel) return;
-      shoe.sel = vi;
-      colorName.textContent = v.name;
-      renderColorways(shoe);
-      flip.classList.remove('swap'); void flip.offsetWidth;
-      flip.classList.add('swap');
-      setTimeout(() => { applyFocusFilter(shoe); renderOrbit(); }, 170);
-    });
-    colorwaysEl.appendChild(b);
-  });
-}
 function renderSizes() {
   sizeGrid.innerHTML = '';
   SIZES.forEach((s) => {
@@ -302,11 +268,10 @@ function showFocused(i, animate) {
   current = (i + SHOES.length) % SHOES.length;
   const s = SHOES[current];
   selectedSize = null;
-  rot = 0; rotTarget = 0; spinning = false;
+  rotY = 0; rotYTarget = 0; rotX = 0; rotXTarget = 0; velY = 0;
   shoeFront.style.opacity = '1'; shoeBack.style.opacity = '0';
   shoeFront.src = s.img; shoeBack.src = s.img;
   shoeFront.alt = s.line1 + ' ' + s.line2;
-  applyFocusFilter(s);
   if (animate) {
     flip.classList.remove('enter'); void flip.offsetWidth;
     flip.classList.add('enter');
@@ -316,10 +281,9 @@ function showFocused(i, animate) {
   }
   shoeName.innerHTML = s.line1 + '<br>' + s.line2;
   shoePrice.textContent = '$' + s.price + '.00';
+  shoeColor.textContent = 'Colour: ' + s.color;
   shoeDesc.textContent = s.desc;
   shoeDesc.classList.remove('show');
-  colorName.textContent = s.variants[s.sel].name;
-  renderColorways(s);
   renderSizes();
   renderCta();
   renderThumbs();

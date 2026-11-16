@@ -150,6 +150,7 @@ body {
 @keyframes panelIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 .focused-name { font-size: 36px; font-weight: 900; line-height: 1; letter-spacing: -.01em; text-transform: uppercase; }
 .focused-price { font-size: 15px; font-weight: 600; margin-top: 10px; }
+.focused-color { font-size: 13px; color: #777; margin-top: 6px; }
 .focused-label { font-size: 10px; font-weight: 700; letter-spacing: .2em; color: #999; margin: 22px 0 10px; }
 .focused-label span { color: #111; font-weight: 600; letter-spacing: .03em; text-transform: none; }
 .size-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -182,7 +183,8 @@ body {
 .focused-desc.show { display: block; animation: panelIn .3s ease; }
 
 .thumbs {
-  position: absolute; left: 34px; bottom: 34px; display: flex; gap: 10px; z-index: 5;
+  position: absolute; left: 34px; bottom: 34px; display: flex; flex-wrap: wrap; gap: 10px; z-index: 5;
+  max-width: 44vw;
 }
 .thumb {
   width: 62px; height: 52px; border-radius: 10px; border: 1px solid #d8d3c9;
