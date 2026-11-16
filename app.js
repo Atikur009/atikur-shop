@@ -1,313 +1,260 @@
-/* ATIKUR WEAR — interactive 3D clothing rail (demo concept store) */
-
+/* ATIKUR WEAR — interactive clothing rail (hubahu reference mechanic) */
 const PRODUCTS = [
-  {
-    id: 'hoodie-black', cat: 'hoodie', name: 'Oversized Hoodie', price: 85, img: 'assets/cut/hoodie.png',
-    desc: 'Heavyweight 480gsm brushed fleece hoodie with dropped shoulders, kangaroo pocket and adjustable drawstrings. Cut oversized for a relaxed streetwear fit.',
-    colors: [
-      { name: 'Black', dot: '#1a1a1a', filter: 'none' },
-      { name: 'Charcoal', dot: '#4a4a4a', filter: 'brightness(1.7)' },
-      { name: 'Olive', dot: '#5a5a32', filter: 'brightness(1.5) sepia(0.55) hue-rotate(35deg)' },
-      { name: 'Navy', dot: '#223a5e', filter: 'brightness(1.4) sepia(0.6) hue-rotate(170deg) saturate(1.6)' },
-    ],
-  },
-  {
-    id: 'puffer-cream', cat: 'jacket', name: 'Cloud Puffer Jacket', price: 140, img: 'assets/cut/puffer.png',
-    desc: 'Quilted puffer with a high storm collar, matte finish and hidden zip pockets. Lightweight warmth with a clean, minimal silhouette.',
-    colors: [
-      { name: 'Cream', dot: '#e8ddc9', filter: 'none' },
-      { name: 'Black', dot: '#1a1a1a', filter: 'brightness(0.22) saturate(0.7)' },
-      { name: 'Sage', dot: '#9db08a', filter: 'hue-rotate(55deg) saturate(0.55) brightness(0.95)' },
-      { name: 'Sand', dot: '#c9a876', filter: 'sepia(0.45) brightness(0.95)' },
-    ],
-  },
-  {
-    id: 'tee-white', cat: 'tee', name: 'Peak Graphic Tee', price: 35, img: 'assets/cut/tee.png',
-    desc: 'Premium heavyweight cotton tee with a small embroidered peak graphic. Boxy oversized fit with a soft garment-washed hand feel.',
-    colors: [
-      { name: 'White', dot: '#f2f2f2', filter: 'none' },
-      { name: 'Sage', dot: '#a7b89a', filter: 'hue-rotate(70deg) saturate(0.45) brightness(0.96)' },
-      { name: 'Blush', dot: '#e8b8b0', filter: 'sepia(0.35) hue-rotate(-25deg) saturate(1.1)' },
-      { name: 'Sky', dot: '#a8c8e0', filter: 'hue-rotate(165deg) saturate(0.45) brightness(0.98)' },
-    ],
-  },
-  {
-    id: 'denim-indigo', cat: 'jacket', name: 'Classic Denim Jacket', price: 110, img: 'assets/cut/denim.png',
-    desc: 'Authentic trucker jacket in mid-wash indigo denim with chest flap pockets, metal shank buttons and a regular fit that layers over anything.',
-    colors: [
-      { name: 'Indigo', dot: '#3a5f8a', filter: 'none' },
-      { name: 'Black Denim', dot: '#222', filter: 'brightness(0.4) saturate(0.7)' },
-      { name: 'Light Wash', dot: '#7fa0c0', filter: 'brightness(1.45) saturate(0.8)' },
-      { name: 'Grey', dot: '#888', filter: 'saturate(0)' },
-    ],
-  },
-  {
-    id: 'hoodie-olive', cat: 'hoodie', name: 'Olive Fleece Hoodie', price: 89, img: 'assets/cut/hoodie.png',
-    desc: 'The same heavyweight oversized hoodie in a washed olive tone. Brushed fleece inside, ribbed cuffs and hem, built to be worn every day.',
-    colors: [
-      { name: 'Olive', dot: '#5a5a32', filter: 'brightness(1.5) sepia(0.55) hue-rotate(35deg)' },
-      { name: 'Black', dot: '#1a1a1a', filter: 'none' },
-      { name: 'Charcoal', dot: '#4a4a4a', filter: 'brightness(1.7)' },
-      { name: 'Navy', dot: '#223a5e', filter: 'brightness(1.4) sepia(0.6) hue-rotate(170deg) saturate(1.6)' },
-    ],
-  },
-  {
-    id: 'puffer-black', cat: 'jacket', name: 'Midnight Puffer Jacket', price: 145, img: 'assets/cut/puffer.png',
-    desc: 'The Cloud Puffer in deep matte black. High storm collar, hidden zip pockets and a water-repellent shell for cold city days.',
-    colors: [
-      { name: 'Black', dot: '#1a1a1a', filter: 'brightness(0.22) saturate(0.7)' },
-      { name: 'Cream', dot: '#e8ddc9', filter: 'none' },
-      { name: 'Sage', dot: '#9db08a', filter: 'hue-rotate(55deg) saturate(0.55) brightness(0.95)' },
-      { name: 'Sand', dot: '#c9a876', filter: 'sepia(0.45) brightness(0.95)' },
-    ],
-  },
-  {
-    id: 'tee-sage', cat: 'tee', name: 'Sage Peak Tee', price: 35, img: 'assets/cut/tee.png',
-    desc: 'Heavyweight cotton tee in soft sage with the signature peak graphic. Boxy fit, garment-washed for a lived-in feel from day one.',
-    colors: [
-      { name: 'Sage', dot: '#a7b89a', filter: 'hue-rotate(70deg) saturate(0.45) brightness(0.96)' },
-      { name: 'White', dot: '#f2f2f2', filter: 'none' },
-      { name: 'Blush', dot: '#e8b8b0', filter: 'sepia(0.35) hue-rotate(-25deg) saturate(1.1)' },
-      { name: 'Sky', dot: '#a8c8e0', filter: 'hue-rotate(165deg) saturate(0.45) brightness(0.98)' },
-    ],
-  },
-  {
-    id: 'denim-black', cat: 'jacket', name: 'Black Trucker Jacket', price: 115, img: 'assets/cut/denim.png',
-    desc: 'The classic trucker cut in rinse-black denim. Metal buttons, chest flap pockets and a fit that goes with everything you own.',
-    colors: [
-      { name: 'Black Denim', dot: '#222', filter: 'brightness(0.4) saturate(0.7)' },
-      { name: 'Indigo', dot: '#3a5f8a', filter: 'none' },
-      { name: 'Light Wash', dot: '#7fa0c0', filter: 'brightness(1.45) saturate(0.8)' },
-      { name: 'Grey', dot: '#888', filter: 'saturate(0)' },
-    ],
-  },
+  { id: 'yellow', name: 'Mustard Hooded Jacket', price: 89, img: 'assets/cut/yellow.png',
+    variants: [
+      { name: 'Mustard', filter: 'none' },
+      { name: 'Olive', filter: 'hue-rotate(45deg) saturate(.85)' },
+      { name: 'Black', filter: 'brightness(.32) saturate(.4)' },
+    ] },
+  { id: 'vest', name: 'Dove Vest', price: 65, img: 'assets/cut/vest.png',
+    variants: [
+      { name: 'Rust', filter: 'none' },
+      { name: 'Black', filter: 'brightness(.3) saturate(.5)' },
+      { name: 'Cream', filter: 'brightness(1.55) saturate(.35)' },
+    ] },
+  { id: 'green', name: 'Colour-Block Windbreaker', price: 79, img: 'assets/cut/green.png',
+    variants: [
+      { name: 'Green / Black', filter: 'none' },
+      { name: 'Navy / Black', filter: 'hue-rotate(130deg) saturate(.9)' },
+      { name: 'Black', filter: 'brightness(.4) saturate(.3)' },
+    ] },
+  { id: 'denim', name: 'Classic Denim Jacket', price: 95, img: 'assets/cut/denim.png',
+    variants: [
+      { name: 'Mid Wash', filter: 'none' },
+      { name: 'Black', filter: 'brightness(.35) saturate(.5)' },
+      { name: 'Light Wash', filter: 'brightness(1.35) saturate(.7)' },
+    ] },
+  { id: 'hoodie', name: 'Oversized Hoodie', price: 59, img: 'assets/cut/hoodie.png',
+    variants: [
+      { name: 'Black', filter: 'none' },
+      { name: 'Charcoal', filter: 'brightness(1.8) saturate(.6)' },
+      { name: 'Sand', filter: 'brightness(2.1) sepia(.55) saturate(1.4)' },
+    ] },
+  { id: 'puffer', name: 'Cloud Puffer Jacket', price: 129, img: 'assets/cut/puffer.png',
+    variants: [
+      { name: 'Cream', filter: 'none' },
+      { name: 'Black', filter: 'brightness(.3) saturate(.4)' },
+      { name: 'Olive', filter: 'hue-rotate(50deg) saturate(.7) brightness(.9)' },
+    ] },
+  { id: 'stripe', name: 'Striped Poplin Shirt', price: 55, img: 'assets/cut/stripe.png',
+    variants: [
+      { name: 'Blue Stripe', filter: 'none' },
+      { name: 'Black Stripe', filter: 'brightness(.6) saturate(.3)' },
+      { name: 'Sage Stripe', filter: 'hue-rotate(90deg) saturate(.7)' },
+    ] },
+  { id: 'tee', name: 'Mountain Graphic Tee', price: 35, img: 'assets/cut/tee.png',
+    variants: [
+      { name: 'White', filter: 'none' },
+      { name: 'Black', filter: 'brightness(.25) saturate(.3)' },
+      { name: 'Sage', filter: 'sepia(.5) hue-rotate(70deg) saturate(.8) brightness(.95)' },
+    ] },
 ];
+const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 
-const SIZES = ['S', 'M', 'L', 'XL'];
+const stage = document.getElementById('stage');
+const track = document.getElementById('track');
+const productView = document.getElementById('product');
+const prodImg = document.getElementById('prodImg');
+const prodName = document.getElementById('prodName');
+const prodPrice = document.getElementById('prodPrice');
+const prodSizes = document.getElementById('prodSizes');
+const prodVariants = document.getElementById('prodVariants');
+const bagCount = document.getElementById('bagCount');
+const toast = document.getElementById('toast');
+
+let bag = 0;
+let current = 0;
+let selectedSize = 'M';
+let selectedVariant = 0;
 
 /* ---------- build rail ---------- */
-const track = document.getElementById('track');
-const stage = document.getElementById('stage');
-let visible = PRODUCTS.slice();
-
-function buildTrack() {
-  track.innerHTML = '';
-  visible.forEach((p, i) => {
-    const el = document.createElement('div');
-    el.className = 'item';
-    el.dataset.index = i;
-    el.innerHTML = `<img src="${p.img}" alt="${p.name}" draggable="false" style="filter:${p.colors[0].filter === 'none' ? '' : p.colors[0].filter}"><div class="floor-shadow"></div>`;
-    el.addEventListener('click', (e) => {
-      if (Math.abs(dragDist) > 6) return;
-      openDetail(p);
-    });
-    track.appendChild(el);
-  });
-  items = [...track.children];
-}
-let items = [];
-buildTrack();
+const items = PRODUCTS.map((p, i) => {
+  const el = document.createElement('div');
+  el.className = 'item';
+  el.dataset.index = i;
+  el.innerHTML = `<img src="${p.img}" alt="${p.name}" draggable="false"><div class="tag">${p.name}</div>`;
+  track.appendChild(el);
+  return el;
+});
 
 /* ---------- rail physics ---------- */
-let spacing = 210;
-let pos = 0;            // current scroll position (float index units * spacing px)
-let target = 0;         // snap target
-let vel = 0;
+let spacing = 150;
+let offset = 0;
+let velocity = 0;
 let dragging = false;
-let dragStartX = 0, dragStartPos = 0, dragDist = 0, lastX = 0, lastT = 0;
+let dragStartX = 0, dragStartOffset = 0, dragMoved = 0, dragStartTime = 0;
 let sway = 0, swayVel = 0;
-let centerIndex = 0;
 
 function measure() {
-  spacing = window.innerWidth < 640 ? 150 : 210;
+  const w = stage.clientWidth;
+  spacing = Math.max(96, Math.min(150, w / 7.2));
 }
 measure();
 window.addEventListener('resize', measure);
 
-function clampTarget() {
-  const max = (visible.length - 1) * spacing;
-  target = Math.max(0, Math.min(max, target));
-}
+function centerIndexFloat() { return -offset / spacing; }
 
-function render(now) {
-  // spring toward target when not dragging
-  if (!dragging) {
-    const spring = (target - pos) * 0.08;
-    vel = (vel + spring) * 0.86;
-    pos += vel;
-    if (Math.abs(target - pos) < 0.5 && Math.abs(vel) < 0.1) { pos = target; vel = 0; }
-  }
-  // sway physics: driven by scroll velocity + gentle idle swing
-  const speed = dragging ? (pos - (render._lp ?? pos)) : vel;
-  render._lp = pos;
-  swayVel += (-sway * 0.045 - swayVel * 0.06 + speed * 0.004);
-  sway += swayVel;
-  const t = now / 1000;
-
+function render() {
   const cx = stage.clientWidth / 2;
+  const cif = centerIndexFloat();
   items.forEach((el, i) => {
-    const x = cx + i * spacing - pos - cx; // offset from centre in px
-    const d = x / spacing;                  // offset in item units
+    const d = i - cif;
     const ad = Math.abs(d);
-    const scale = Math.max(0.62, 1 - ad * 0.13);
-    const yArc = ad * ad * 14;
-    const phase = Math.sin(t * 1.1 + i * 1.7) * 1.1;
-    const rot = sway * (1 + (i % 3) * 0.25) + phase;
-    const dim = Math.max(0.45, 1 - ad * 0.16);
-    el.style.transform = `translateX(${x}px) translateY(${yArc}px) scale(${scale}) rotate(${rot}deg)`;
-    el.style.zIndex = 100 - Math.round(ad * 10);
-    el.style.opacity = dim;
-    el.style.filter = `brightness(${Math.max(0.72, 1 - ad * 0.09)})`;
-    el.classList.toggle('center', Math.round(pos / spacing) === i);
+    const x = cx + d * spacing;
+    const lift = Math.max(0, 1 - ad);
+    const scale = 0.92 + 1.25 * Math.pow(lift, 1.6);
+    const rot = sway * Math.pow(lift, 1.4) + Math.max(-6, Math.min(6, velocity * 0.06)) * lift;
+    const y = 10 * Math.pow(lift, 2);
+    el.style.transform = `translateX(${x - cx}px) translateY(${y}px) scale(${scale}) rotate(${rot}deg)`;
+    el.style.zIndex = String(100 - Math.round(ad * 10));
+    el.style.opacity = ad > 4.2 ? '0' : '1';
+    el.classList.toggle('center', ad < 0.5);
+    const img = el.firstElementChild;
+    img.style.filter = `drop-shadow(0 ${12 + 22 * lift}px ${14 + 18 * lift}px rgba(0,0,0,${0.14 + 0.14 * lift}))`;
   });
-
-  const ci = Math.max(0, Math.min(visible.length - 1, Math.round(pos / spacing)));
-  if (ci !== centerIndex) { centerIndex = ci; updateInfo(); }
-  requestAnimationFrame(render);
 }
 
-function updateInfo() {
-  const p = visible[centerIndex];
-  if (!p) return;
-  document.getElementById('infoName').textContent = p.name;
-  document.getElementById('infoPrice').textContent = '$' + p.price;
-  document.getElementById('infoColor').textContent = p.colors[0].name;
+function tick() {
+  if (!dragging) {
+    offset += velocity;
+    velocity *= 0.94;
+    if (Math.abs(velocity) < 0.05) velocity = 0;
+    if (Math.abs(velocity) < 1.2) {
+      const target = -Math.round(centerIndexFloat()) * spacing;
+      const clamped = Math.max(-(PRODUCTS.length - 1) * spacing, Math.min(0, target));
+      offset += (clamped - offset) * 0.12;
+      if (Math.abs(clamped - offset) < 0.4) offset = clamped;
+    }
+    const min = -(PRODUCTS.length - 1) * spacing, max = 0;
+    if (offset < min) { offset = min; velocity = 0; }
+    if (offset > max) { offset = max; velocity = 0; }
+  }
+  const accel = -sway * 0.012 - swayVel * 0.06 + velocity * 0.00035;
+  swayVel += accel;
+  sway += swayVel;
+  sway = Math.max(-14, Math.min(14, sway));
+  render();
+  requestAnimationFrame(tick);
 }
-updateInfo();
+requestAnimationFrame(tick);
 
-/* ---------- drag / wheel / keys ---------- */
 stage.addEventListener('pointerdown', (e) => {
-  if (e.target.closest('.infobar, .view-btn, .hint')) return;
-  dragging = true; dragDist = 0;
-  dragStartX = lastX = e.clientX; dragStartPos = pos; lastT = performance.now();
+  dragging = true;
+  dragStartX = e.clientX; dragStartOffset = offset; dragMoved = 0;
+  dragStartTime = performance.now();
+  velocity = 0;
   stage.classList.add('dragging');
   stage.setPointerCapture(e.pointerId);
 });
 stage.addEventListener('pointermove', (e) => {
   if (!dragging) return;
-  const dx = e.clientX - lastX;
-  lastX = e.clientX;
-  dragDist += Math.abs(dx);
-  pos = dragStartPos - (e.clientX - dragStartX);
-  const max = (visible.length - 1) * spacing;
-  if (pos < -60) pos = -60; if (pos > max + 60) pos = max + 60;
-  vel = -dx * 0.9;
+  const dx = e.clientX - dragStartX;
+  const prev = offset;
+  offset = dragStartOffset + dx;
+  velocity = offset - prev;
+  dragMoved = Math.max(dragMoved, Math.abs(dx));
+  swayVel += velocity * 0.002;
 });
-function endDrag() {
+function endDrag(e) {
   if (!dragging) return;
   dragging = false;
   stage.classList.remove('dragging');
-  // snap to nearest, with flick momentum
-  target = pos + vel * 6;
-  target = Math.round(target / spacing) * spacing;
-  clampTarget();
+  if (dragMoved < 6 && performance.now() - dragStartTime < 400) {
+    const t = document.elementFromPoint(e.clientX, e.clientY);
+    const itemEl = t && t.closest ? t.closest('.item') : null;
+    if (itemEl) openProduct(Number(itemEl.dataset.index));
+    else {
+      const ci = Math.round(centerIndexFloat());
+      if (ci >= 0 && ci < PRODUCTS.length) openProduct(ci);
+    }
+  }
 }
 stage.addEventListener('pointerup', endDrag);
 stage.addEventListener('pointercancel', endDrag);
 
 stage.addEventListener('wheel', (e) => {
   e.preventDefault();
-  target += (Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY);
-  target = Math.round(target / spacing) * spacing;
-  clampTarget();
+  const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+  velocity -= d * 0.35;
+  swayVel -= d * 0.0006;
 }, { passive: false });
 
-document.getElementById('prevBtn').addEventListener('click', () => { target -= spacing; clampTarget(); });
-document.getElementById('nextBtn').addEventListener('click', () => { target += spacing; clampTarget(); });
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowLeft') { target -= spacing; clampTarget(); }
-  if (e.key === 'ArrowRight') { target += spacing; clampTarget(); }
-  if (e.key === 'Escape') closeDetail();
-});
-
-/* nav filter */
-document.querySelectorAll('.nav a').forEach(a => {
-  a.addEventListener('click', (e) => {
-    e.preventDefault();
-    document.querySelectorAll('.nav a').forEach(x => x.classList.remove('active'));
-    a.classList.add('active');
-    const f = a.dataset.filter;
-    visible = f === 'all' ? PRODUCTS.slice() : PRODUCTS.filter(p => p.cat === f);
-    pos = 0; target = 0; vel = 0; centerIndex = -1;
-    buildTrack(); updateInfo();
-  });
-});
-
-/* ---------- detail overlay ---------- */
-const detail = document.getElementById('detail');
-let current = null, currentColor = 0, currentSize = 'M', bag = 0;
-
-function openDetail(p) {
-  current = p; currentColor = 0; currentSize = 'M';
-  document.getElementById('detailName').textContent = p.name;
-  document.getElementById('detailPrice').textContent = '$' + p.price;
-  document.getElementById('detailDesc').textContent = p.desc;
-  applyColor(0);
-  const sw = document.getElementById('swatches');
-  sw.innerHTML = '';
-  p.colors.forEach((c, i) => {
+/* ---------- product view ---------- */
+function renderVariants(p) {
+  prodVariants.innerHTML = '';
+  p.variants.forEach((v, vi) => {
     const b = document.createElement('button');
-    b.className = 'swatch' + (i === 0 ? ' active' : '');
-    b.style.background = c.dot;
-    b.title = c.name;
+    b.className = 'variant-thumb' + (vi === selectedVariant ? ' active' : '');
+    b.title = v.name;
+    b.innerHTML = `<img src="${p.img}" alt="${v.name}" style="filter:${v.filter}">`;
     b.addEventListener('click', () => {
-      sw.querySelectorAll('.swatch').forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      applyColor(i);
+      selectedVariant = vi;
+      prodImg.style.filter = v.filter === 'none'
+        ? 'drop-shadow(0 26px 26px rgba(0,0,0,.20))'
+        : `${v.filter} drop-shadow(0 26px 26px rgba(0,0,0,.20))`;
+      renderVariants(p);
     });
-    sw.appendChild(b);
+    prodVariants.appendChild(b);
   });
-  const sz = document.getElementById('sizes');
-  sz.innerHTML = '';
-  SIZES.forEach(s => {
+}
+function renderSizes() {
+  prodSizes.innerHTML = '';
+  SIZES.forEach((s) => {
     const b = document.createElement('button');
-    b.className = 'size' + (s === 'M' ? ' active' : '');
+    b.className = 'prod-size' + (s === selectedSize ? ' active' : '');
     b.textContent = s;
-    b.addEventListener('click', () => {
-      sz.querySelectorAll('.size').forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      currentSize = s;
-    });
-    sz.appendChild(b);
+    b.addEventListener('click', () => { selectedSize = s; renderSizes(); });
+    prodSizes.appendChild(b);
   });
-  detail.classList.add('open');
-  detail.setAttribute('aria-hidden', 'false');
 }
-function applyColor(i) {
-  currentColor = i;
-  const c = current.colors[i];
-  const img = document.getElementById('detailImg');
-  img.src = current.img;
-  img.style.filter = c.filter === 'none' ? '' : c.filter;
-  document.getElementById('detailColorName').textContent = c.name;
+function showProduct(i, animate) {
+  current = (i + PRODUCTS.length) % PRODUCTS.length;
+  const p = PRODUCTS[current];
+  selectedVariant = 0; selectedSize = 'M';
+  prodImg.src = p.img;
+  prodImg.alt = p.name;
+  prodImg.style.filter = 'drop-shadow(0 26px 26px rgba(0,0,0,.20))';
+  if (animate) {
+    prodImg.classList.remove('swap'); void prodImg.offsetWidth;
+    prodImg.classList.add('swap');
+  }
+  prodName.textContent = p.name;
+  prodPrice.textContent = '$' + p.price + '.00';
+  renderVariants(p);
+  renderSizes();
 }
-function closeDetail() {
-  detail.classList.remove('open');
-  detail.setAttribute('aria-hidden', 'true');
+function openProduct(i) {
+  showProduct(i, false);
+  productView.classList.add('open');
+  productView.setAttribute('aria-hidden', 'false');
 }
-document.getElementById('detailClose').addEventListener('click', closeDetail);
-detail.addEventListener('click', (e) => { if (e.target === detail) closeDetail(); });
-document.getElementById('viewBtn').addEventListener('click', () => { if (visible[centerIndex]) openDetail(visible[centerIndex]); });
-
-document.getElementById('addBtn').addEventListener('click', () => {
+function closeProduct() {
+  productView.classList.remove('open');
+  productView.setAttribute('aria-hidden', 'true');
+}
+document.getElementById('prodClose').addEventListener('click', closeProduct);
+document.getElementById('prodPrev').addEventListener('click', () => showProduct(current - 1, true));
+document.getElementById('prodNext').addEventListener('click', () => showProduct(current + 1, true));
+document.getElementById('wordmark').addEventListener('click', closeProduct);
+document.addEventListener('keydown', (e) => {
+  if (!productView.classList.contains('open')) return;
+  if (e.key === 'Escape') closeProduct();
+  if (e.key === 'ArrowLeft') showProduct(current - 1, true);
+  if (e.key === 'ArrowRight') showProduct(current + 1, true);
+});
+document.getElementById('prodAdd').addEventListener('click', () => {
   bag++;
-  document.getElementById('bagCount').textContent = bag;
-  const toast = document.getElementById('toast');
-  toast.textContent = `${current.name} (${current.colors[currentColor].name}, ${currentSize}) — Added to bag ✓`;
+  bagCount.textContent = bag;
+  toast.textContent = PRODUCTS[current].name + ' — added to bag ✓';
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2400);
-  closeDetail();
+  setTimeout(() => toast.classList.remove('show'), 2200);
 });
 document.getElementById('bagBtn').addEventListener('click', () => {
-  const toast = document.getElementById('toast');
-  toast.textContent = bag === 0 ? 'Your bag is empty — add something you love.' : `${bag} item${bag > 1 ? 's' : ''} in your bag (demo checkout coming soon).`;
+  toast.textContent = bag === 0 ? 'Your bag is empty' : bag + (bag === 1 ? ' item' : ' items') + ' in your bag';
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2400);
+  setTimeout(() => toast.classList.remove('show'), 2200);
 });
+document.getElementById('shopLink').addEventListener('click', (e) => { e.preventDefault(); closeProduct(); });
+document.getElementById('collectionsLink').addEventListener('click', (e) => { e.preventDefault(); closeProduct(); });
 
-/* hide hint after first drag */
-stage.addEventListener('pointerdown', () => {
-  document.getElementById('hint').style.display = 'none';
-}, { once: true });
-
-requestAnimationFrame(render);
+render();

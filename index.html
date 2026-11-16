@@ -3,70 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>ATIKUR WEAR — 3D Clothing Rail</title>
-<meta name="description" content="Demo concept clothing store with an interactive 3D rail. Drag, browse and shop the collection.">
+<title>ATIKUR WEAR</title>
+<meta name="description" content="ATIKUR WEAR — interactive clothing rail. Drag to browse the collection.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <header class="topbar">
-  <div class="brand">ATIKUR<span>WEAR</span></div>
-  <nav class="nav">
-    <a href="#" data-filter="all" class="active">New In</a>
-    <a href="#" data-filter="hoodie">Hoodies</a>
-    <a href="#" data-filter="jacket">Jackets</a>
-    <a href="#" data-filter="tee">Tees</a>
-  </nav>
-  <button class="bag" id="bagBtn" aria-label="Shopping bag">
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
-    <span class="bag-count" id="bagCount">0</span>
-  </button>
+  <div class="top-left">
+    <a href="#" id="shopLink">SHOP</a>
+    <a href="#" id="collectionsLink">COLLECTIONS</a>
+  </div>
+  <div class="wordmark" id="wordmark">ATIKUR&nbsp;WEAR</div>
+  <div class="top-right">
+    <button class="icon-btn" aria-label="Search">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>
+    </button>
+    <button class="icon-btn bag" id="bagBtn" aria-label="Shopping bag">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+      <span class="bag-count" id="bagCount">0</span>
+    </button>
+  </div>
 </header>
 
 <main class="stage" id="stage">
-  <div class="rail-bar"></div>
-  <div class="rail-cap left"></div>
-  <div class="rail-cap right"></div>
+  <div class="rail-rod"></div>
   <div class="track" id="track"></div>
-  <div class="hint" id="hint">⟵ Drag the rail to explore ⟶</div>
-
-  <div class="infobar">
-    <button class="arrow" id="prevBtn" aria-label="Previous item">←</button>
-    <div class="info">
-      <div class="info-name" id="infoName">—</div>
-      <div class="info-meta"><span id="infoPrice">—</span><span class="dot">•</span><span id="infoColor">—</span></div>
-    </div>
-    <button class="arrow" id="nextBtn" aria-label="Next item">→</button>
-  </div>
-  <button class="view-btn" id="viewBtn">View Product</button>
+  <div class="rail-note">SS26 COLLECTION&nbsp;&nbsp;·&nbsp;&nbsp;DRAG TO BROWSE&nbsp;&nbsp;·&nbsp;&nbsp;CLICK A GARMENT TO VIEW</div>
 </main>
 
-<div class="detail" id="detail" aria-hidden="true">
-  <div class="detail-card">
-    <button class="detail-close" id="detailClose" aria-label="Close">✕</button>
-    <div class="detail-img-wrap">
-      <img class="detail-img" id="detailImg" src="" alt="Product">
-    </div>
-    <div class="detail-body">
-      <div class="detail-tag">New Season</div>
-      <h1 class="detail-name" id="detailName">—</h1>
-      <div class="detail-price" id="detailPrice">—</div>
-      <p class="detail-desc" id="detailDesc"></p>
-      <div class="detail-label">Colour — <span id="detailColorName">—</span></div>
-      <div class="swatches" id="swatches"></div>
-      <div class="detail-label">Size</div>
-      <div class="sizes" id="sizes"></div>
-      <button class="add-btn" id="addBtn">Add to Bag</button>
-      <div class="detail-note">Free delivery over $100 • 30-day returns</div>
-    </div>
+<section class="product" id="product" aria-hidden="true">
+  <button class="edge-arrow left" id="prodPrev" aria-label="Previous product">‹</button>
+  <button class="edge-arrow right" id="prodNext" aria-label="Next product">›</button>
+  <button class="prod-close" id="prodClose" aria-label="Back to rail">✕</button>
+
+  <div class="prod-stage">
+    <div class="prod-hook"></div>
+    <img class="prod-img" id="prodImg" src="" alt="Product">
+    <div class="prod-variants" id="prodVariants"></div>
   </div>
-</div>
+
+  <div class="prod-info">
+    <div class="prod-name" id="prodName">—</div>
+    <div class="prod-price" id="prodPrice">—</div>
+    <div class="prod-sizes" id="prodSizes"></div>
+    <button class="prod-add" id="prodAdd">ADD TO CART</button>
+    <div class="prod-meta">FREE DELIVERY OVER $100&nbsp;&nbsp;·&nbsp;&nbsp;30-DAY RETURNS</div>
+  </div>
+</section>
 
 <div class="toast" id="toast">Added to bag ✓</div>
 
 <footer class="foot">
-  Demo concept store — interactive 3D clothing website built by <a href="https://atikur.cyou">Atikur Rahman</a>
+  Concept demo — interactive clothing website built by <a href="https://atikur.cyou">Atikur Rahman</a>
 </footer>
 
 <script src="app.js"></script>
